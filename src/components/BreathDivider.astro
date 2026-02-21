@@ -1,0 +1,21 @@
+---
+interface Props {
+  spacing?: 'normal' | 'wide';
+}
+
+const { spacing = 'normal' } = Astro.props;
+---
+
+<span
+  class={`breath-divider${spacing === 'wide' ? ' breath-divider--wide' : ''}`}
+  aria-hidden="true"
+>
+  · &nbsp; · &nbsp; ·
+</span>
+
+<style>
+  .breath-divider--wide {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+</style>

@@ -1,0 +1,116 @@
+---
+interface Props {
+  passage: string;
+  source: string;
+  note: string;
+  currentIndex: number;
+  total: number;
+}
+
+const { passage, source, note, currentIndex, total } = Astro.props;
+---
+
+<div class="passage-card-wrapper">
+  <div class="passage-card" id="passage-card" aria-live="polite">
+    <div class="passage-body">
+      <p class="passage-text">{passage}</p>
+    </div>
+
+    <hr class="card-rule" />
+
+    <div class="passage-footer">
+      <p class="passage-source">{source}</p>
+      <div class="passage-note-wrapper">
+        <span class="note-label">A Note</span>
+        <p class="passage-note">{note}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="passage-nav">
+    <button class="passage-nav-btn" id="prev-btn" aria-label="Previous passage">← Previous</button>
+    <span class="passage-counter">{currentIndex + 1} of {total}</span>
+    <button class="passage-nav-btn" id="next-btn" aria-label="Next passage">Next →</button>
+  </div>
+</div>
+
+<style>
+  .passage-card-wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .passage-card {
+    padding: 2.5rem 3rem;
+    margin-bottom: var(--spacing-lg);
+    border-radius: 1px;
+  }
+
+  .passage-body {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .card-rule {
+    border: none;
+    border-top: 1px solid var(--color-accent-sand);
+    margin: var(--spacing-lg) 0;
+    opacity: 0.6;
+  }
+
+  .passage-footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .note-label {
+    display: block;
+    font-family: var(--font-label);
+    font-size: var(--font-size-xs);
+    color: var(--color-accent-gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.4em;
+  }
+
+  .passage-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0.5rem;
+  }
+
+  .passage-nav-btn {
+    font-family: var(--font-label);
+    font-size: var(--font-size-sm);
+    color: var(--color-ink-secondary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--spacing-xs) 0;
+    letter-spacing: 0.06em;
+    transition: color var(--transition-base);
+  }
+
+  .passage-nav-btn:hover {
+    color: var(--color-accent-gold);
+  }
+
+  .passage-nav-btn:disabled {
+    color: var(--color-bg-accent);
+    cursor: default;
+  }
+
+  .passage-counter {
+    font-family: var(--font-label);
+    font-size: var(--font-size-xs);
+    color: var(--color-accent-sand);
+    letter-spacing: 0.08em;
+  }
+
+  @media (max-width: 600px) {
+    .passage-card {
+      padding: var(--spacing-lg) var(--spacing-md);
+    }
+  }
+</style>

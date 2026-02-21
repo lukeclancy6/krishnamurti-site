@@ -1,0 +1,170 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BreathDivider from '../components/BreathDivider.astro';
+
+const books = [
+  {
+    title: "The Gospel of Matthew",
+    detail: "New Testament",
+    url: "https://www.gutenberg.org/ebooks/10",
+    note: "He was not a Christian in any conventional sense, and he said so plainly. But he returned to the Sermon on the Mount throughout his life — particularly to the Beatitudes and to the teaching about the lilies of the field. He thought something real was there, buried under centuries of institutional interpretation."
+  },
+  {
+    title: "Meditations",
+    detail: "Marcus Aurelius",
+    url: "https://www.gutenberg.org/ebooks/2680",
+    note: "He admired the Stoics for their directness and their willingness to examine themselves without flinching. Aurelius, he thought, was someone who genuinely tried to live what he believed — not merely to think it. That quality of earnestness appealed to him."
+  },
+  {
+    title: "The Perennial Philosophy",
+    detail: "Aldous Huxley",
+    url: "https://en.wikipedia.org/wiki/The_Perennial_Philosophy",
+    note: "Huxley was a neighbor and friend in Ojai, and one of the few people Krishnamurti spoke with on something like equal terms. They agreed on much and disagreed on some things. Huxley believed mystical experience could be induced; Krishnamurti doubted any such shortcut. Their conversations were, by all accounts, extraordinary."
+  },
+  {
+    title: "Krishnamurti: The Years of Awakening",
+    detail: "Mary Lutyens",
+    url: "https://en.wikipedia.org/wiki/Mary_Lutyens",
+    note: "Lutyens knew him from childhood — her mother had been close to Annie Besant — and wrote three biographical volumes about his life with access and intimacy that no one else had. He trusted her. He also found, when the books appeared, that he had been more revealed than he had perhaps anticipated."
+  },
+  {
+    title: "Don Quixote",
+    detail: "Miguel de Cervantes",
+    url: "https://www.gutenberg.org/ebooks/996",
+    note: "He loved Cervantes — the tenderness of it, the way it holds absurdity and nobility together without resolving them. Quixote, he thought, was not a fool. He was someone who had decided to live inside a meaning that the world could not confirm. There is something he recognized in that."
+  },
+  {
+    title: "The Idiot",
+    detail: "Fyodor Dostoevsky",
+    url: "https://www.gutenberg.org/ebooks/2638",
+    note: "He spoke rarely of novels, but Myshkin interested him — the idea of the perfectly good person moving through a world that cannot receive goodness without destroying it. He was not sure the novel succeeded in what it attempted. He was not sure any novel could."
+  },
+];
+---
+
+<BaseLayout
+  title="What He Read"
+  description="Books that Jiddu Krishnamurti valued — with his commentary."
+>
+
+  <div class="reading-page">
+
+    <header class="page-header">
+      <p class="section-label label">Reading Room</p>
+      <h1 class="page-title">What He Read</h1>
+      <p class="page-subtitle">
+        He was not a great reader. He preferred walking to libraries.
+        But some books stayed with him.
+      </p>
+    </header>
+
+    <BreathDivider />
+
+    <div class="books-list">
+      {books.map((book) => (
+        <article class="book-entry">
+          <header class="book-header">
+            <h2 class="book-title">
+              <a href={book.url} class="book-link" target="_blank" rel="noopener noreferrer">
+                {book.title}
+              </a>
+            </h2>
+            <p class="book-detail label">{book.detail}</p>
+          </header>
+          <div class="prose book-note">
+            <p>{book.note}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+  </div>
+
+</BaseLayout>
+
+<style>
+  .reading-page {
+    max-width: var(--content-max-ch);
+  }
+
+  .page-header {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .section-label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-accent-sand);
+    text-transform: uppercase;
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.12em;
+  }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, var(--font-size-3xl));
+    color: var(--color-ink-heading);
+    margin-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--color-accent-sand);
+    padding-bottom: var(--spacing-md);
+    font-weight: 400;
+  }
+
+  .page-subtitle {
+    font-family: var(--font-body);
+    font-size: var(--font-size-sm);
+    font-style: italic;
+    color: var(--color-ink-secondary);
+  }
+
+  .books-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+  }
+
+  .book-entry {
+    padding-bottom: var(--spacing-xl);
+    border-bottom: 1px solid var(--color-bg-accent);
+  }
+
+  .book-entry:last-child {
+    border-bottom: none;
+  }
+
+  .book-header {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .book-title {
+    font-family: var(--font-display);
+    font-size: var(--font-size-xl);
+    font-weight: 400;
+    line-height: var(--line-height-heading);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .book-link {
+    color: var(--color-ink-heading);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-accent-sand);
+    padding-bottom: 2px;
+    transition: color var(--transition-base), border-color var(--transition-base);
+  }
+
+  .book-link:hover {
+    color: var(--color-accent-gold);
+    border-bottom-color: var(--color-accent-gold);
+  }
+
+  .book-detail {
+    color: var(--color-ink-secondary);
+    letter-spacing: 0.08em;
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+  }
+
+  .book-note {
+    color: var(--color-ink-secondary);
+  }
+</style>

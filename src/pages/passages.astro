@@ -1,0 +1,294 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BreathDivider from '../components/BreathDivider.astro';
+import { passages } from '../data/passages';
+
+const passagesJson = JSON.stringify(passages);
+const total = passages.length;
+---
+
+<BaseLayout
+  title="Passages"
+  description="Selected passages from the writings and talks of Jiddu Krishnamurti."
+>
+
+  <div class="passages-page">
+
+    <header class="page-header">
+      <p class="section-label label">Passages</p>
+      <h1 class="page-title">Passages</h1>
+      <p class="page-subtitle">
+        One at a time. There is no hurry.
+      </p>
+    </header>
+
+    <BreathDivider />
+
+    <!-- Passage card -->
+    <article class="passage-card" id="passage-card" role="region" aria-label="Passage reader" aria-live="polite">
+
+      <div class="passage-card-inner">
+
+        <!-- Passage body -->
+        <div class="passage-body">
+          <p class="passage-text" id="passage-text"></p>
+          <p class="passage-source" id="passage-source"></p>
+        </div>
+
+        <!-- Divider -->
+        <hr class="card-rule" />
+
+        <!-- Note -->
+        <div class="note-block">
+          <span class="note-label">A Note</span>
+          <p class="passage-note" id="passage-note"></p>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="card-nav" aria-label="Navigate between passages">
+          <button class="card-nav-btn" id="prev-btn" aria-label="Previous passage" disabled>
+            ← Previous
+          </button>
+          <span class="page-counter" id="page-counter" aria-hidden="true">1 / {total}</span>
+          <button class="card-nav-btn" id="next-btn" aria-label="Next passage">
+            Next →
+          </button>
+        </nav>
+
+      </div>
+    </article>
+
+  </div>
+
+</BaseLayout>
+
+<script define:vars={{ passagesJson, total }}>
+  const passages = JSON.parse(passagesJson);
+  let currentIndex = 0;
+
+  const card = document.getElementById('passage-card');
+  const passageText = document.getElementById('passage-text');
+  const passageSource = document.getElementById('passage-source');
+  const passageNote = document.getElementById('passage-note');
+  const pageCounter = document.getElementById('page-counter');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+
+  function render(index, animate) {
+    const p = passages[index];
+    if (!p) return;
+
+    if (animate && card) {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(3px)';
+
+      setTimeout(() => {
+        updateContent(p, index);
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      }, 180);
+    } else {
+      updateContent(p, index);
+      if (card) {
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      }
+    }
+  }
+
+  function updateContent(p, index) {
+    if (passageText) passageText.textContent = p.passage;
+    if (passageSource) passageSource.textContent = '— ' + p.source;
+    if (passageNote) passageNote.textContent = p.note;
+    if (pageCounter) pageCounter.textContent = (index + 1) + ' / ' + total;
+
+    if (prevBtn) prevBtn.disabled = index === 0;
+    if (nextBtn) nextBtn.disabled = index === total - 1;
+
+    if (card) card.setAttribute('aria-label', 'Passage ' + (index + 1) + ' of ' + total);
+  }
+
+  prevBtn?.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      render(currentIndex, true);
+    }
+  });
+
+  nextBtn?.addEventListener('click', () => {
+    if (currentIndex < total - 1) {
+      currentIndex++;
+      render(currentIndex, true);
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      if (currentIndex > 0) { currentIndex--; render(currentIndex, true); }
+    } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      if (currentIndex < total - 1) { currentIndex++; render(currentIndex, true); }
+    }
+  });
+
+  if (card) {
+    card.style.transition = 'opacity 0.18s ease, transform 0.18s ease';
+  }
+  render(currentIndex, false);
+</script>
+
+<style>
+  .passages-page {
+    max-width: 660px;
+  }
+
+  .page-header {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .section-label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-accent-sand);
+    text-transform: uppercase;
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.12em;
+  }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, var(--font-size-3xl));
+    color: var(--color-ink-heading);
+    line-height: var(--line-height-heading);
+    margin-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--color-accent-sand);
+    padding-bottom: var(--spacing-md);
+    font-weight: 400;
+  }
+
+  .page-subtitle {
+    font-family: var(--font-body);
+    font-size: var(--font-size-sm);
+    font-style: italic;
+    color: var(--color-ink-secondary);
+  }
+
+  /* Card */
+  .passage-card {
+    width: 100%;
+    background: var(--color-bg-section);
+    border: 1px solid var(--color-accent-sand);
+    box-shadow:
+      0 1px 4px rgba(28,24,18,0.06),
+      0 4px 16px rgba(28,24,18,0.08);
+    padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-lg);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+
+  .passage-card-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  .passage-body {
+    min-height: 8em;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .passage-text {
+    font-family: var(--font-body);
+    font-size: 1.15rem;
+    font-style: italic;
+    line-height: 1.95;
+    color: var(--color-ink-primary);
+    margin: 0;
+  }
+
+  .passage-source {
+    font-family: var(--font-label);
+    font-size: var(--font-size-sm);
+    color: var(--color-ink-secondary);
+    letter-spacing: 0.06em;
+    margin: 0;
+  }
+
+  .card-rule {
+    border: none;
+    border-top: 1px solid var(--color-accent-sand);
+    opacity: 0.5;
+    margin: 0;
+  }
+
+  .note-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .note-label {
+    display: block;
+    font-family: var(--font-label);
+    font-size: var(--font-size-xs);
+    color: var(--color-accent-gold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .passage-note {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--color-ink-secondary);
+    line-height: 1.75;
+    font-style: normal;
+    margin: 0;
+  }
+
+  .card-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-bg-accent);
+    margin-top: var(--spacing-sm);
+  }
+
+  .card-nav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-label);
+    font-size: var(--font-size-sm);
+    color: var(--color-ink-secondary);
+    letter-spacing: 0.06em;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    transition: color var(--transition-base);
+  }
+
+  .card-nav-btn:hover:not(:disabled) {
+    color: var(--color-accent-gold);
+  }
+
+  .card-nav-btn:disabled {
+    opacity: 0.25;
+    cursor: default;
+  }
+
+  .page-counter {
+    font-family: var(--font-label);
+    font-size: var(--font-size-xs);
+    color: var(--color-accent-sand);
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 500px) {
+    .passage-card {
+      padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
+    }
+
+    .passage-text {
+      font-size: 1rem;
+    }
+  }
+</style>

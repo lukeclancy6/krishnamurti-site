@@ -1,0 +1,125 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BreathDivider from '../components/BreathDivider.astro';
+---
+
+<BaseLayout
+  title="Questions"
+  description="Questions from the talks of Jiddu Krishnamurti. No answers."
+>
+
+  <div class="questions-page">
+
+    <header class="page-header">
+      <p class="section-label label">Questions</p>
+      <h1 class="page-title">Questions</h1>
+      <p class="page-subtitle">
+        He asked these questions in public, over sixty years. He did not always answer them.
+        Some of them, he said, cannot be answered — only lived with.
+      </p>
+    </header>
+
+    <BreathDivider />
+
+    <div class="questions-body prose">
+
+      <p class="question">Why are you here?</p>
+      <p class="question">What is it you are actually looking for?</p>
+      <p class="question">Is the observer different from the observed?</p>
+
+      <BreathDivider />
+
+      <p class="question">Can the mind be free of its own conditioning?</p>
+      <p class="question">What would it mean to see clearly — without any motive, without any direction?</p>
+      <p class="question">Is there a difference between you and your thought?</p>
+
+      <BreathDivider />
+
+      <p class="question">Can love exist where there is jealousy?</p>
+      <p class="question">Is what you call love a need — and if so, is it love?</p>
+      <p class="question">What do you actually want from another person?</p>
+
+      <BreathDivider />
+
+      <p class="question">Are you afraid of what you might find if you looked at yourself honestly?</p>
+      <p class="question">What are you afraid of losing?</p>
+      <p class="question">Have you ever, for a single moment, been free of fear?</p>
+
+      <BreathDivider />
+
+      <p class="question">Why do you follow?</p>
+      <p class="question">What would happen if there were no authority — inside or outside?</p>
+      <p class="question">Can you think, if you are only thinking what you have been taught to think?</p>
+
+      <BreathDivider />
+
+      <p class="question">Is the known a trap?</p>
+      <p class="question">Can the mind be quiet — not forced to be quiet, but quiet?</p>
+      <p class="question">When the mind is very still, what is there?</p>
+
+      <BreathDivider />
+
+      <p class="question">Is it possible to die — not physically, but to everything of yesterday — each day?</p>
+      <p class="question">What would remain if there were no memory?</p>
+      <p class="question">Are you the sum of your memories?</p>
+
+      <BreathDivider />
+
+      <p class="question">Have you ever looked at a tree without naming it?</p>
+      <p class="question">What would it mean to look at yourself without any image of yourself?</p>
+      <p class="question">Is it possible to be completely alone — not lonely, but alone?</p>
+
+    </div>
+
+  </div>
+
+</BaseLayout>
+
+<style>
+  .questions-page {
+    max-width: var(--content-max-ch);
+  }
+
+  .page-header {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .section-label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-accent-sand);
+    text-transform: uppercase;
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.12em;
+  }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, var(--font-size-3xl));
+    color: var(--color-ink-heading);
+    margin-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--color-accent-sand);
+    padding-bottom: var(--spacing-md);
+    font-weight: 400;
+  }
+
+  .page-subtitle {
+    font-family: var(--font-body);
+    font-size: var(--font-size-sm);
+    font-style: italic;
+    color: var(--color-ink-secondary);
+  }
+
+  .questions-body {
+    max-width: var(--content-max-ch);
+  }
+
+  .question {
+    font-family: var(--font-body);
+    font-size: var(--font-size-lg);
+    font-style: italic;
+    color: var(--color-ink-primary);
+    line-height: var(--line-height-body);
+    margin-bottom: var(--spacing-md);
+  }
+</style>

@@ -1,0 +1,155 @@
+/* =============================================================
+   TYPOGRAPHY.CSS — Headings, body, labels, ornamental elements
+   ============================================================= */
+
+/* ── Headings ── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--color-ink-heading);
+  line-height: var(--line-height-heading);
+}
+
+h1 { font-size: var(--font-size-3xl); }
+h2 { font-size: var(--font-size-2xl); }
+h3 { font-size: var(--font-size-xl); }
+h4 { font-size: var(--font-size-lg); }
+h5, h6 { font-size: var(--font-size-base); }
+
+/* ── Body prose ── */
+.prose {
+  max-width: var(--content-max-ch);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-body);
+  color: var(--color-ink-primary);
+}
+
+.prose p {
+  margin-bottom: 1.4em;
+}
+
+.prose p + p {
+  text-indent: 2em;
+  margin-top: 0;
+}
+
+.prose p:first-of-type {
+  text-indent: 0;
+}
+
+.prose em {
+  font-style: italic;
+}
+
+.prose strong {
+  font-weight: 600;
+}
+
+.prose blockquote {
+  border-left: 2px solid var(--color-accent-sand);
+  padding-left: var(--spacing-lg);
+  margin: var(--spacing-lg) 0;
+  color: var(--color-ink-secondary);
+  font-style: italic;
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-body);
+}
+
+/* ── Labels / bylines / section headers ── */
+.label,
+.byline,
+.section-label {
+  font-family: var(--font-label);
+  font-size: var(--font-size-sm);
+  color: var(--color-ink-secondary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.date-label {
+  font-family: var(--font-label);
+  font-size: var(--font-size-xs);
+  color: var(--color-accent-sand);
+  letter-spacing: 0.1em;
+}
+
+/* ── Pull quote ── */
+.pull-quote {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  font-style: italic;
+  color: var(--color-ink-heading);
+  text-align: center;
+  padding: var(--spacing-lg) var(--spacing-xl);
+  background: var(--color-bg-section);
+  border-top: 1px solid var(--color-accent-sand);
+  border-bottom: 1px solid var(--color-accent-sand);
+  margin: var(--spacing-xl) 0;
+}
+
+/* ── Large display / title ── */
+.page-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, var(--font-size-3xl));
+  color: var(--color-ink-heading);
+  border-bottom: 1px solid var(--color-accent-sand);
+  padding-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* ── Passage card text ── */
+.passage-text {
+  font-family: var(--font-body);
+  font-size: var(--font-size-lg);
+  font-style: italic;
+  line-height: 1.9;
+  color: var(--color-ink-primary);
+}
+
+.passage-source {
+  font-family: var(--font-label);
+  font-size: var(--font-size-sm);
+  color: var(--color-ink-secondary);
+  letter-spacing: 0.06em;
+  margin-top: var(--spacing-md);
+}
+
+.passage-note {
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  color: var(--color-ink-secondary);
+  line-height: 1.7;
+  font-style: normal;
+}
+
+/* ── Dialogue format ── */
+.dialogue-exchange {
+  margin-bottom: var(--spacing-lg);
+}
+
+.dialogue-q {
+  font-style: italic;
+  color: var(--color-ink-secondary);
+  margin-bottom: 0.5em;
+}
+
+.dialogue-q::before {
+  content: 'Q: ';
+  font-style: normal;
+  font-family: var(--font-label);
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.06em;
+}
+
+.dialogue-k {
+  color: var(--color-ink-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.dialogue-k::before {
+  content: 'K: ';
+  font-family: var(--font-label);
+  font-size: var(--font-size-sm);
+  color: var(--color-accent-gold);
+  letter-spacing: 0.06em;
+}

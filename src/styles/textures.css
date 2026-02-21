@@ -1,0 +1,84 @@
+/* =============================================================
+   TEXTURES.CSS — Hairline rules, card styles, passage animations
+   No SVG noise texture. No paper effects. Open and luminous.
+   ============================================================= */
+
+/* ── Breath divider (·  ·  ·) ── */
+.breath-divider {
+  display: block;
+  text-align: center;
+  font-family: var(--font-label);
+  font-size: 1.1rem;
+  color: var(--color-accent-sand);
+  letter-spacing: 0.6em;
+  margin: var(--spacing-xl) 0;
+  user-select: none;
+}
+
+/* ── Hairline horizontal rule ── */
+.hairline {
+  border: none;
+  border-top: 1px solid var(--color-accent-sand);
+  margin: var(--spacing-xl) 0;
+  opacity: 0.5;
+}
+
+/* ── Sidebar rule ── */
+.sidebar-rule {
+  border: none;
+  border-top: 1px solid var(--color-bg-accent);
+  margin: var(--spacing-md) 0;
+}
+
+/* ── Passage card ── */
+.passage-card {
+  background: var(--color-bg-section);
+  border: 1px solid var(--color-accent-sand);
+  box-shadow:
+    0 1px 4px rgba(28,24,18,0.06),
+    0 4px 16px rgba(28,24,18,0.08);
+  position: relative;
+}
+
+/* ── Portrait ── */
+.portrait {
+  filter: grayscale(1) contrast(1.15) brightness(1.05);
+  border: 1px solid var(--color-bg-accent);
+  box-shadow: 2px 3px 10px rgba(28,24,18,0.14);
+}
+
+/* ── Page-turn animation (clean fade only — no blur) ── */
+@keyframes passageReveal {
+  0%   { opacity: 0; transform: translateY(4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.passage-reveal {
+  animation: passageReveal var(--transition-slow) ease forwards;
+}
+
+@keyframes passageFade {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.passage-fade {
+  animation: passageFade 180ms ease forwards;
+}
+
+/* ── Link styles within content ── */
+.book-link,
+.essay-link {
+  color: var(--color-accent-gold);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-accent-sand);
+  padding-bottom: 1px;
+  transition: color var(--transition-base), border-color var(--transition-base);
+}
+
+.book-link:hover,
+.essay-link:hover {
+  color: var(--color-accent-green);
+  border-bottom-color: var(--color-accent-green);
+  text-decoration: none;
+}

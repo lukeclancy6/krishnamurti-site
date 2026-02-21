@@ -1,0 +1,62 @@
+---
+const currentPath = Astro.url.pathname;
+
+const pages = [
+  { href: '/',          label: 'Why Are You Here?' },
+  { href: '/on',        label: 'On…' },
+  { href: '/life',      label: 'A Life' },
+  { href: '/dialogues', label: 'Dialogues' },
+  { href: '/passages',  label: 'Passages' },
+  { href: '/reading',   label: 'What He Read' },
+  { href: '/questions', label: 'Questions' },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+}
+---
+
+<aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+  <a href="/" class="sidebar-title">Jiddu<br/>Krishnamurti</a>
+  <p class="sidebar-subtitle">1895 – 1986</p>
+
+  <hr class="sidebar-rule" />
+
+  <nav>
+    <ul>
+      {pages.map(page => (
+        <li>
+          <a
+            href={page.href}
+            class={isActive(page.href) ? 'active' : ''}
+            aria-current={isActive(page.href) ? 'page' : undefined}
+          >
+            {page.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <div class="sidebar-bottom">
+    <button
+      class="begin-anywhere-btn"
+      id="begin-anywhere-btn"
+      aria-label="Open a random page on this site"
+    >
+      · <em>Begin anywhere</em> ·
+    </button>
+  </div>
+</aside>
+
+<script define:vars={{ pages, currentPath }}>
+  const btn = document.getElementById('begin-anywhere-btn');
+  if (btn) {
+    btn.addEventListener('click', () => {
+      const available = pages.filter(p => p.href !== currentPath);
+      const target = available[Math.floor(Math.random() * available.length)];
+      if (target) window.location.href = target.href;
+    });
+  }
+</script>

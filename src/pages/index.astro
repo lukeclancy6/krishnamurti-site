@@ -1,0 +1,216 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BreathDivider from '../components/BreathDivider.astro';
+
+const rotatingQuotes = [
+  "It is no measure of health to be well adjusted to a profoundly sick society.",
+  "The observer is the observed.",
+  "Truth is a pathless land.",
+  "Do you want to know what my secret is? You see, I don't mind what happens.",
+  "To be alone is not a withdrawal from the world; it is to be in the world but not of it.",
+  "When you once see something as false, it is finished.",
+];
+
+const rotatingQuotesJson = JSON.stringify(rotatingQuotes);
+---
+
+<BaseLayout
+  title="Krishnamurti"
+  description="The words of Jiddu Krishnamurti — philosopher, speaker, and inquirer. 1895–1986."
+>
+
+  <div class="homepage">
+
+    <header class="home-header">
+      <div class="home-portrait-row">
+        <div class="home-text">
+          <h1 class="home-title">Why are you here?</h1>
+          <p class="home-subtitle label">Jiddu Krishnamurti · 1895–1986</p>
+        </div>
+        <div class="portrait-wrapper">
+          <img
+            src="/krishnamurti.jpg"
+            alt="Jiddu Krishnamurti"
+            class="portrait"
+            width="280"
+            loading="eager"
+          />
+        </div>
+      </div>
+    </header>
+
+    <BreathDivider />
+
+    <div class="prose home-prose">
+      <p>
+        Not as a criticism — as a real question. You came here for some reason.
+        Perhaps you heard the name and were curious. Perhaps someone told you he said
+        something that mattered. Perhaps you are, at this moment, looking for something —
+        an answer, a direction, a confirmation of what you already suspect.
+      </p>
+
+      <p>
+        He would ask you to hold that reason lightly. Not to dismiss it, but to look at it
+        honestly. The reasons we come to anything — a book, a teacher, a website — tell us
+        something about what we are already carrying.
+      </p>
+
+      <p>
+        He spoke for sixty years, on every continent, to hundreds of thousands of people.
+        He never charged for admission. He refused to establish a religion, a school of
+        thought, a lineage. He asked only that you listen — not to him, but to yourself,
+        <em>through</em> him. And when people made him into an authority, he turned and
+        walked the other way.
+      </p>
+
+      <p>
+        What he was pointing at — if such a thing can be pointed at — was the possibility
+        of a mind that is not caught in its own past. A mind that can actually see what is,
+        without the screen of memory, belief, fear, and desire that ordinarily stands
+        between us and everything.
+      </p>
+
+      <p>
+        Whether that is possible, he said, is something you have to find out for yourself.
+        No one can tell you. Not even him.
+      </p>
+    </div>
+
+    <BreathDivider />
+
+    <!-- Rotating pull quote -->
+    <div class="rotating-quote-container" id="rotating-quote" aria-live="polite">
+      <blockquote class="rotating-quote">
+        <p id="rotating-quote-text"></p>
+      </blockquote>
+    </div>
+
+    <BreathDivider />
+
+    <div class="prose home-prose">
+      <p>
+        The pages that follow are an attempt to gather some of what he said — not as a
+        definitive record, not as doctrine, but as an invitation. Start anywhere. Read
+        slowly. Notice what happens in you as you read.
+      </p>
+
+      <p>
+        He distrusted all organizations built in his name, including the ones he himself
+        founded. He would have had reservations about this website. He would have asked
+        whether it was helping you see, or whether it was becoming another thing to hide
+        behind.
+      </p>
+
+      <p>
+        It is a fair question. Keep it close.
+      </p>
+    </div>
+
+  </div>
+
+</BaseLayout>
+
+<script define:vars={{ rotatingQuotesJson }}>
+  const quotes = JSON.parse(rotatingQuotesJson);
+  const el = document.getElementById('rotating-quote-text');
+  let index = Math.floor(Math.random() * quotes.length);
+
+  function showQuote() {
+    if (el) el.textContent = quotes[index];
+  }
+
+  showQuote();
+
+  setInterval(() => {
+    index = (index + 1) % quotes.length;
+    const container = document.getElementById('rotating-quote');
+    if (container) container.style.opacity = '0';
+    setTimeout(() => {
+      showQuote();
+      if (container) container.style.opacity = '1';
+    }, 300);
+  }, 9000);
+</script>
+
+<style>
+  .homepage {
+    max-width: var(--content-max-ch);
+  }
+
+  .home-portrait-row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .home-text {
+    flex: 1;
+  }
+
+  .home-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, var(--font-size-3xl));
+    color: var(--color-ink-heading);
+    line-height: var(--line-height-heading);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 400;
+  }
+
+  .home-subtitle {
+    color: var(--color-ink-secondary);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .portrait-wrapper {
+    flex-shrink: 0;
+    width: 160px;
+  }
+
+  .portrait {
+    filter: grayscale(1) contrast(1.15) brightness(1.05);
+    border: 1px solid var(--color-bg-accent);
+    box-shadow: 2px 3px 10px rgba(28,24,18,0.14);
+    width: 100%;
+    height: auto;
+  }
+
+  .home-prose {
+    color: var(--color-ink-primary);
+  }
+
+  .rotating-quote-container {
+    transition: opacity 0.3s ease;
+  }
+
+  .rotating-quote {
+    font-family: var(--font-display);
+    font-size: var(--font-size-xl);
+    font-style: italic;
+    color: var(--color-ink-heading);
+    text-align: center;
+    padding: var(--spacing-lg) var(--spacing-xl);
+    background: var(--color-bg-section);
+    border-top: 1px solid var(--color-accent-sand);
+    border-bottom: 1px solid var(--color-accent-sand);
+    margin: 0;
+  }
+
+  .rotating-quote p {
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 560px) {
+    .home-portrait-row {
+      flex-direction: column-reverse;
+      gap: var(--spacing-lg);
+    }
+
+    .portrait-wrapper {
+      width: 120px;
+    }
+  }
+</style>
