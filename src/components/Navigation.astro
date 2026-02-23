@@ -3,7 +3,6 @@ const currentPath = Astro.url.pathname;
 const isOnPage = currentPath.startsWith('/on');
 
 const pages = [
-  { href: '/',          label: 'Why Are You Here?' },
   { href: '/life',      label: 'A Life' },
   { href: '/dialogues', label: 'Dialogues' },
   { href: '/passages',  label: 'Passages' },
@@ -11,7 +10,7 @@ const pages = [
   { href: '/questions', label: 'Questions' },
 ];
 
-const allPages = [{ href: '/on', label: 'On…' }, ...pages];
+const allPages = [{ href: '/', label: 'Home' }, { href: '/on', label: 'His Thoughts On…' }, ...pages];
 
 const onTopics = [
   { href: '/on#freedom',   label: 'Freedom' },
@@ -36,18 +35,7 @@ function isActive(href: string): boolean {
 
   <nav>
     <ul>
-      <!-- Homepage -->
-      <li>
-        <a
-          href="/"
-          class={currentPath === '/' ? 'active' : ''}
-          aria-current={currentPath === '/' ? 'page' : undefined}
-        >
-          Why Are You Here?
-        </a>
-      </li>
-
-      <!-- On… with expandable sub-topics -->
+      <!-- His Thoughts On… with expandable sub-topics -->
       <li class="nav-on-item">
         <div class="on-header">
           <a
@@ -56,7 +44,7 @@ function isActive(href: string): boolean {
             aria-current={isOnPage ? 'page' : undefined}
             id="on-link"
           >
-            On…
+            His Thoughts On…
           </a>
           <button
             class="on-toggle"
