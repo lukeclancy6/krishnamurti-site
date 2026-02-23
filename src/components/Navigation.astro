@@ -1,14 +1,25 @@
 ---
 const currentPath = Astro.url.pathname;
+const isOnPage = currentPath.startsWith('/on');
 
 const pages = [
   { href: '/',          label: 'Why Are You Here?' },
-  { href: '/on',        label: 'On…' },
   { href: '/life',      label: 'A Life' },
   { href: '/dialogues', label: 'Dialogues' },
   { href: '/passages',  label: 'Passages' },
   { href: '/reading',   label: 'What He Read' },
   { href: '/questions', label: 'Questions' },
+];
+
+const allPages = [{ href: '/on', label: 'On…' }, ...pages];
+
+const onTopics = [
+  { href: '/on#freedom',   label: 'Freedom' },
+  { href: '/on#love',      label: 'Love' },
+  { href: '/on#fear',      label: 'Fear' },
+  { href: '/on#death',     label: 'Death' },
+  { href: '/on#meditation',label: 'Meditation' },
+  { href: '/on#truth',     label: 'Truth' },
 ];
 
 function isActive(href: string): boolean {
@@ -25,6 +36,53 @@ function isActive(href: string): boolean {
 
   <nav>
     <ul>
+      <!-- Homepage -->
+      <li>
+        <a
+          href="/"
+          class={currentPath === '/' ? 'active' : ''}
+          aria-current={currentPath === '/' ? 'page' : undefined}
+        >
+          Why Are You Here?
+        </a>
+      </li>
+
+      <!-- On… with expandable sub-topics -->
+      <li class="nav-on-item">
+        <div class="on-header">
+          <a
+            href="/on"
+            class={isOnPage ? 'active' : ''}
+            aria-current={isOnPage ? 'page' : undefined}
+            id="on-link"
+          >
+            On…
+          </a>
+          <button
+            class="on-toggle"
+            id="on-toggle"
+            aria-expanded={isOnPage ? 'true' : 'false'}
+            aria-controls="on-subtopics"
+            aria-label="Expand topics"
+          >
+            <span class="on-toggle-icon" id="on-toggle-icon">{isOnPage ? '▴' : '▾'}</span>
+          </button>
+        </div>
+
+        <ul
+          class="on-subtopics"
+          id="on-subtopics"
+          style={isOnPage ? '' : 'display: none;'}
+        >
+          {onTopics.map(t => (
+            <li>
+              <a href={t.href} class="on-subtopic-link">{t.label}</a>
+            </li>
+          ))}
+        </ul>
+      </li>
+
+      <!-- Remaining pages -->
       {pages.map(page => (
         <li>
           <a
@@ -50,13 +108,118 @@ function isActive(href: string): boolean {
   </div>
 </aside>
 
-<script define:vars={{ pages, currentPath }}>
+<script define:vars={{ allPages, currentPath, isOnPage }}>
+  // Random page button
   const btn = document.getElementById('begin-anywhere-btn');
   if (btn) {
     btn.addEventListener('click', () => {
-      const available = pages.filter(p => p.href !== currentPath);
+      const available = allPages.filter(p => p.href !== currentPath);
       const target = available[Math.floor(Math.random() * available.length)];
       if (target) window.location.href = target.href;
     });
   }
+
+  // On… accordion toggle
+  const onToggle = document.getElementById('on-toggle');
+  const onSubtopics = document.getElementById('on-subtopics');
+  const onToggleIcon = document.getElementById('on-toggle-icon');
+  const onLink = document.getElementById('on-link');
+
+  let expanded = isOnPage;
+
+  function openTopics() {
+    expanded = true;
+    if (onSubtopics) onSubtopics.style.display = 'block';
+    if (onToggle) onToggle.setAttribute('aria-expanded', 'true');
+    if (onToggleIcon) onToggleIcon.textContent = '▴';
+  }
+
+  function closeTopics() {
+    expanded = false;
+    if (onSubtopics) onSubtopics.style.display = 'none';
+    if (onToggle) onToggle.setAttribute('aria-expanded', 'false');
+    if (onToggleIcon) onToggleIcon.textContent = '▾';
+  }
+
+  onToggle?.addEventListener('click', () => {
+    if (expanded) {
+      closeTopics();
+    } else {
+      openTopics();
+    }
+  });
+
+  // Clicking "On…" link also expands if not already
+  onLink?.addEventListener('click', () => {
+    if (!expanded) openTopics();
+  });
 </script>
+
+<style>
+  .nav-on-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .on-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.25rem;
+  }
+
+  .on-header a {
+    flex: 1;
+  }
+
+  .on-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 0.1rem;
+    color: var(--color-accent-sand);
+    font-size: 0.6rem;
+    line-height: 1;
+    transition: color var(--transition-base);
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .on-toggle:hover {
+    color: var(--color-accent-gold);
+  }
+
+  .on-subtopics {
+    list-style: none;
+    padding: 0.3rem 0 0.2rem 0.85rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-left: 1px solid var(--color-bg-accent);
+  }
+
+  .on-subtopics li {
+    display: flex;
+    align-items: center;
+  }
+
+  .on-subtopic-link {
+    font-family: var(--font-label);
+    font-size: 0.78rem;
+    color: var(--color-ink-secondary);
+    text-decoration: none;
+    display: block;
+    padding: 0.18rem 0;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+    transition: color var(--transition-base), opacity var(--transition-base);
+  }
+
+  .on-subtopic-link:hover {
+    color: var(--color-accent-gold);
+    opacity: 1;
+    text-decoration: none;
+  }
+</style>
