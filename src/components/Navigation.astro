@@ -8,10 +8,9 @@ const pages = [
   { href: '/passages',  label: 'Passages' },
   { href: '/reading',   label: 'What He Read' },
   { href: '/questions', label: 'Questions' },
-  { href: '/guide',     label: 'How to Read Him' },
 ];
 
-const allPages = [{ href: '/', label: 'Home' }, { href: '/on', label: 'His Thoughts On…' }, ...pages];
+const allPages = [{ href: '/', label: 'Home' }, { href: '/guide', label: 'How to Read Krishnamurti' }, { href: '/on', label: 'Thoughts on…' }, ...pages];
 
 const onTopics = [
   { href: '/on#freedom',   label: 'Freedom' },
@@ -36,7 +35,18 @@ function isActive(href: string): boolean {
 
   <nav>
     <ul>
-      <!-- His Thoughts On… with expandable sub-topics -->
+      <!-- How to Read Krishnamurti — top of nav -->
+      <li>
+        <a
+          href="/guide"
+          class={isActive('/guide') ? 'active' : ''}
+          aria-current={isActive('/guide') ? 'page' : undefined}
+        >
+          How to Read Krishnamurti
+        </a>
+      </li>
+
+      <!-- Thoughts on… with expandable sub-topics -->
       <li class="nav-on-item">
         <div class="on-header">
           <a
@@ -45,7 +55,7 @@ function isActive(href: string): boolean {
             aria-current={isOnPage ? 'page' : undefined}
             id="on-link"
           >
-            His Thoughts On…
+            Thoughts on…
           </a>
           <button
             class="on-toggle"
